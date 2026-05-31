@@ -64,6 +64,7 @@ app.post("/login", async (req, res) => {
 
     res.json({
       token,
+      id: user.Id,
       fullName: user.FullName,
       balance: user.Balance,
     });
@@ -126,6 +127,36 @@ app.get("/balance/:id", async (req, res) => {
       FROM Users
       WHERE Id = ${userId}
     `;
+
+    if (result.recordset.length === 0) {
+      return res.status(404).json({
+        message: "User not found",
+      });
+    }
+
+    res.json(result.recordset[0]);
+  } catch (err) {
+    console.error(err);
+
+    res.status(500).json({
+      message: "Server error",
+    });
+  }
+});
+
+app.get("/user/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    const result = await sql.query`
+            SELECT
+                Id,
+                FullName,
+                Email,
+                Balance
+            FROM Users
+            WHERE Id = ${id}
+        `;
 
     if (result.recordset.length === 0) {
       return res.status(404).json({
@@ -210,13 +241,17 @@ app.post("/transfer", async (req, res) => {
   }
 });
 
-app.get("/transactions", async (req, res) => {
+app.get("/transactions/:id", async (req, res) => {
   try {
+    const id = req.params.id;
+
     const result = await sql.query`
-      SELECT *
-      FROM Transactions
-      ORDER BY Id DESC
-    `;
+            SELECT *
+            FROM Transactions
+            WHERE SenderId = ${id}
+               OR ReceiverId = ${id}
+            ORDER BY Id DESC
+        `;
 
     res.json(result.recordset);
   } catch (err) {

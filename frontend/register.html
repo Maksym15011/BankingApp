@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Rejestracja</title>
+
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/register.css" />
+  </head>
+  <body>
+    <main class="register-container">
+      <div class="register-card">
+        <h1>Rejestracja</h1>
+
+        <p>Utwórz nowe konto bankowe</p>
+
+        <input type="text" id="fullName" placeholder="Imię i nazwisko" />
+
+        <input type="email" id="email" placeholder="Email" />
+
+        <input type="password" id="password" placeholder="Hasło" />
+
+        <button onclick="register()">Zarejestruj</button>
+
+        <a href="login.html"> Masz już konto? </a>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-content">
+        <p>Projekt edukacyjny. Nie jest prawdziwym bankiem.</p>
+      </div>
+    </footer>
+
+    <script src="js/auth.js"></script>
+  </body>
+</html>

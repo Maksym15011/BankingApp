@@ -1,0 +1,120 @@
+.container {
+  max-width: 1200px;
+
+  margin: 40px auto;
+
+  padding: 20px;
+}
+
+.dashboard-grid {
+  display: grid;
+
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 25px;
+}
+
+.balance-card,
+.user-card {
+  background: white;
+
+  border-radius: var(--radius-large);
+
+  box-shadow: var(--shadow);
+
+  padding: 35px;
+}
+
+.card-title {
+  color: var(--text-light);
+
+  font-size: 14px;
+
+  text-transform: uppercase;
+
+  margin-bottom: 15px;
+}
+
+.balance-value {
+  font-size: 48px;
+
+  font-weight: bold;
+
+  color: var(--success-color);
+}
+
+.user-card h2 {
+  color: var(--primary-color);
+}
+
+.actions {
+  margin-top: 30px;
+
+  display: flex;
+
+  gap: 20px;
+}
+
+.action-btn {
+  flex: 1;
+
+  background: var(--primary-color);
+
+  color: white;
+
+  text-decoration: none;
+
+  text-align: center;
+
+  padding: 18px;
+
+  border-radius: var(--radius-medium);
+
+  font-weight: bold;
+
+  transition: 0.3s;
+}
+
+.action-btn:hover {
+  background: var(--primary-hover);
+
+  transform: translateY(-3px);
+}
+
+.recent-card {
+  margin-top: 30px;
+
+  background: white;
+
+  border-radius: var(--radius-large);
+
+  box-shadow: var(--shadow);
+
+  padding: 30px;
+}
+
+.transaction-item {
+  padding: 15px 0;
+
+  border-bottom: 1px solid var(--border-color);
+}
+
+.more-btn {
+  display: block;
+
+  width: fit-content;
+
+  margin: 20px auto 0 auto;
+
+  padding: 10px 20px;
+
+  border-radius: var(--radius-medium);
+
+  background: var(--primary-color);
+
+  color: white;
+
+  text-decoration: none;
+
+  font-weight: bold;
+}

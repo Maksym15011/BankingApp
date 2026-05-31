@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Panel Klienta</title>
+
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/dashboard.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+  </head>
+  <body>
+    <header class="header">
+      <div class="logo">
+        <i class="fa-solid fa-building-columns"></i>
+
+        <a href="dashboard.html"> Bank Polski Online </a>
+      </div>
+
+      <nav>
+        <a href="dashboard.html"> Panel </a>
+
+        <a href="transfer.html"> Przelew </a>
+
+        <a href="history.html"> Historia </a>
+
+        <a href="#" onclick="logout()"> Wyloguj </a>
+      </nav>
+    </header>
+
+    <main class="container">
+      <div class="dashboard-grid">
+        <section class="balance-card">
+          <p class="card-title">Dostępne środki</p>
+
+          <div class="balance-value">
+            <span id="balance"> 0 </span>
+
+            PLN
+          </div>
+        </section>
+
+        <section class="user-card">
+          <p class="card-title">Właściciel konta</p>
+
+          <h2 id="userName">---</h2>
+        </section>
+      </div>
+
+      <section class="actions">
+        <a href="transfer.html" class="action-btn"> 💸 Wykonaj przelew </a>
+
+        <a href="history.html" class="action-btn"> 📄 Historia transakcji </a>
+      </section>
+
+      <section class="recent-card">
+        <div class="recent-header">
+          <h2>Ostatnie transakcje</h2>
+        </div>
+
+        <div id="recentTransactions"></div>
+
+        <a href="history.html" class="more-btn"> Więcej → </a>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-content">
+        <h3>Bank Polski Online</h3>
+
+        <p>
+          Projekt edukacyjny stworzony w ramach przedmiotów Banking oraz Web
+          Development.
+        </p>
+
+        <p>
+          System przeznaczony wyłącznie do celów demonstracyjnych. Nie jest
+          prawdziwym bankiem.
+        </p>
+      </div>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script src="js/dashboard.js"></script>
+  </body>
+</html>
