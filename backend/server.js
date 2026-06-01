@@ -92,11 +92,20 @@ app.post("/register", async (req, res) => {
       });
     }
 
-    const hashedPassword = await require("bcrypt").hash(password, 10);
+    const bcrypt = require("bcrypt");
 
-    await sql.query`
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const result = await sql.query`
+
       INSERT INTO Users
-      (FullName, Email, PasswordHash, Balance)
+      (
+        FullName,
+        Email,
+        PasswordHash,
+        Balance
+      )
+      OUTPUT INSERTED.Id
       VALUES
       (
         ${fullName},
@@ -104,6 +113,34 @@ app.post("/register", async (req, res) => {
         ${hashedPassword},
         1000
       )
+
+    `;
+
+    const userId = result.recordset[0].Id;
+
+    const cardNumber = `5274 ${Math.floor(Math.random() * 9000 + 1000)} ${Math.floor(Math.random() * 9000 + 1000)} ${Math.floor(Math.random() * 9000 + 1000)}`;
+
+    const expiryDate = "12/30";
+
+    const cvv = String(Math.floor(Math.random() * 900 + 100));
+
+    await sql.query`
+
+      INSERT INTO Cards
+      (
+        UserId,
+        CardNumber,
+        ExpiryDate,
+        CVV
+      )
+      VALUES
+      (
+        ${userId},
+        ${cardNumber},
+        ${expiryDate},
+        ${cvv}
+      )
+
     `;
 
     res.status(201).json({
@@ -306,4 +343,32 @@ connectDB();
 
 app.listen(process.env.PORT, () => {
   console.log(`Server started on port ${process.env.PORT}`);
+});
+
+app.get("/card/:id", async (req, res) => {
+  try {
+    const userId = req.params.id;
+
+    const result = await sql.query`
+
+      SELECT *
+      FROM Cards
+      WHERE UserId = ${userId}
+
+    `;
+
+    if (result.recordset.length === 0) {
+      return res.status(404).json({
+        message: "Card not found",
+      });
+    }
+
+    res.json(result.recordset[0]);
+  } catch (err) {
+    console.error(err);
+
+    res.status(500).json({
+      message: "Server error",
+    });
+  }
 });
