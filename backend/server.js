@@ -372,3 +372,60 @@ app.get("/card/:id", async (req, res) => {
     });
   }
 });
+
+app.post("/payment", async (req, res) => {
+  try {
+    const { senderId, amount, service } = req.body;
+
+    const sender = await sql.query`
+
+        SELECT *
+        FROM Users
+        WHERE Id = ${senderId}
+
+      `;
+
+    if (sender.recordset[0].Balance < amount) {
+      return res.status(400).json({
+        message: "Insufficient funds",
+      });
+    }
+
+    await sql.query`
+
+      UPDATE Users
+      SET Balance =
+      Balance - ${amount}
+      WHERE Id =
+      ${senderId}
+
+    `;
+
+    await sql.query`
+
+      INSERT INTO Transactions
+      (
+        SenderId,
+        ReceiverId,
+        Amount
+      )
+      VALUES
+      (
+        ${senderId},
+        10,
+        ${amount}
+      )
+
+    `;
+
+    res.json({
+      message: "Payment successful",
+    });
+  } catch (err) {
+    console.error(err);
+
+    res.status(500).json({
+      message: "Server error",
+    });
+  }
+});

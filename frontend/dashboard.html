@@ -28,6 +28,8 @@
 
         <a href="history.html"> Historia </a>
 
+        <a href="payment.html"> Płatności </a>
+
         <a href="#" onclick="logout()"> Wyloguj </a>
       </nav>
     </header>
@@ -55,6 +57,28 @@
         <a href="transfer.html" class="action-btn"> 💸 Wykonaj przelew </a>
 
         <a href="history.html" class="action-btn"> 📄 Historia transakcji </a>
+      </section>
+
+      <section class="card-preview">
+        <div class="bank-card">
+          <div class="card-bank">BANK POLSKI ONLINE</div>
+
+          <div id="cardNumber" class="card-number"></div>
+
+          <div class="card-bottom">
+            <div>
+              <small> Właściciel </small>
+
+              <div id="cardOwner"></div>
+            </div>
+
+            <div>
+              <small> Ważna do </small>
+
+              <div id="cardExpiry"></div>
+            </div>
+          </div>
+        </div>
       </section>
 
       <section class="recent-card">

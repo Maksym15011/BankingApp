@@ -60,5 +60,25 @@ async function loadRecentTransactions() {
   });
 }
 
+async function loadCard() {
+  const userId = localStorage.getItem("userId");
+
+  try {
+    const response = await fetch(`http://localhost:5000/card/${userId}`);
+
+    const card = await response.json();
+
+    document.getElementById("cardNumber").textContent = card.CardNumber;
+
+    document.getElementById("cardOwner").textContent =
+      localStorage.getItem("fullName");
+
+    document.getElementById("cardExpiry").textContent = card.ExpiryDate;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 loadUser();
 loadRecentTransactions();
+loadCard();

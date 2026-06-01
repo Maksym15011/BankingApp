@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Bramka Płatnicza</title>
+
+    <link rel="stylesheet" href="css/base.css" />
+
+    <link rel="stylesheet" href="css/payment.css" />
+  </head>
+  <body>
+    <header class="header">
+      <a href="dashboard.html" class="logo"> 🏦 Bank Polski Online </a>
+
+      <nav>
+        <a href="dashboard.html"> Panel </a>
+
+        <a href="transfer.html"> Przelew </a>
+
+        <a href="history.html"> Historia </a>
+
+        <a href="payment.html"> Płatności </a>
+
+        <a href="#" onclick="logout()"> Wyloguj </a>
+      </nav>
+    </header>
+
+    <main class="container">
+      <div class="payment-card">
+        <h1>Bramka Płatnicza</h1>
+
+        <div class="product">
+          <h3>Netflix Premium</h3>
+
+          <p>49 PLN</p>
+
+          <button onclick="pay(49, 'Netflix Premium')">Zapłać</button>
+        </div>
+
+        <div class="product">
+          <h3>Spotify Premium</h3>
+
+          <p>25 PLN</p>
+
+          <button onclick="pay(25, 'Spotify Premium')">Zapłać</button>
+        </div>
+
+        <div class="product">
+          <h3>Kurs JavaScript</h3>
+
+          <p>100 PLN</p>
+
+          <button onclick="pay(100, 'Kurs JavaScript')">Zapłać</button>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <p>
+        Projekt edukacyjny stworzony w ramach przedmiotów Banking oraz Web
+        Development.
+      </p>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script src="js/payment.js"></script>
+  </body>
+</html>

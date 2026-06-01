@@ -118,3 +118,47 @@
 
   font-weight: bold;
 }
+
+.card-preview {
+  margin-top: 30px;
+}
+
+.bank-card {
+  background: linear-gradient(135deg, #003366, #0055aa);
+
+  color: white;
+
+  padding: 30px;
+
+  border-radius: 20px;
+
+  box-shadow: var(--shadow);
+
+  max-width: 550px;
+}
+
+.card-bank {
+  font-size: 18px;
+
+  font-weight: bold;
+
+  margin-bottom: 50px;
+}
+
+.card-number {
+  font-size: 28px;
+
+  letter-spacing: 4px;
+
+  margin-bottom: 35px;
+}
+
+.card-bottom {
+  display: flex;
+
+  justify-content: space-between;
+}
+
+.card-bottom small {
+  opacity: 0.8;
+}

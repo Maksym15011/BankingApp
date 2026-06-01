@@ -1,0 +1,37 @@
+.payment-card {
+  background: white;
+
+  padding: 30px;
+
+  border-radius: 20px;
+
+  box-shadow: var(--shadow);
+
+  max-width: 700px;
+
+  margin: 40px auto;
+}
+
+.product {
+  border-bottom: 1px solid #ddd;
+
+  padding: 20px 0;
+}
+
+.product:last-child {
+  border: none;
+}
+
+.product button {
+  background: var(--primary-color);
+
+  color: white;
+
+  border: none;
+
+  padding: 10px 20px;
+
+  border-radius: 10px;
+
+  cursor: pointer;
+}
