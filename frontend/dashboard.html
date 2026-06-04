@@ -15,20 +15,20 @@
   </head>
   <body>
     <header class="header">
-      <div class="logo">
+      <a href="dashboard.html" class="logo">
         <i class="fa-solid fa-building-columns"></i>
 
-        <a href="dashboard.html"> Bank Polski Online </a>
-      </div>
+        <span> NOVA BANK </span>
+      </a>
 
       <nav>
-        <a href="dashboard.html"> Panel </a>
+        <a href="dashboard.html" class="active"> Panel </a>
 
         <a href="transfer.html"> Przelew </a>
 
         <a href="history.html"> Historia </a>
 
-        <a href="payment.html"> Płatności </a>
+        <a href="payment.html"> Usługi </a>
 
         <a href="#" onclick="logout()"> Wyloguj </a>
       </nav>
@@ -61,7 +61,9 @@
 
       <section class="card-preview">
         <div class="bank-card">
-          <div class="card-bank">BANK POLSKI ONLINE</div>
+          <div class="card-bank">
+            <span> NOVA BANK </span>
+          </div>
 
           <div id="cardNumber" class="card-number"></div>
 

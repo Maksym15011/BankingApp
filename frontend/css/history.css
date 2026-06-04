@@ -9,11 +9,13 @@
 .history-card {
   background: white;
 
-  padding: 35px;
+  padding: 40px;
 
-  border-radius: var(--radius-large);
+  border-radius: 24px;
 
-  box-shadow: var(--shadow);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+
+  border: 1px solid rgba(0, 51, 102, 0.08);
 }
 
 .history-header {
@@ -37,7 +39,7 @@ table {
 }
 
 thead {
-  background: var(--primary-color);
+  background: linear-gradient(135deg, #003366, #0055aa);
 
   color: white;
 }
@@ -54,6 +56,10 @@ td {
   border-bottom: 1px solid var(--border-color);
 }
 
+tr:hover {
+  background: rgba(0, 85, 170, 0.04);
+}
+
 .amount-positive {
   color: var(--success-color);
 
@@ -64,4 +70,40 @@ td {
   color: var(--danger-color);
 
   font-weight: bold;
+}
+
+.pdf-btn {
+  background: linear-gradient(135deg, #003366, #0055aa);
+
+  color: white;
+
+  border: none;
+
+  padding: 10px 16px;
+
+  border-radius: 10px;
+
+  cursor: pointer;
+
+  font-weight: 600;
+
+  transition: 0.2s;
+}
+
+.pdf-btn:hover {
+  transform: translateY(-2px);
+}
+
+.pdf-btn:hover {
+  opacity: 0.9;
+}
+
+table {
+  width: 100%;
+
+  border-collapse: collapse;
+
+  overflow: hidden;
+
+  border-radius: 16px;
 }

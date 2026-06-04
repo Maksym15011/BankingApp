@@ -1,37 +1,305 @@
 .payment-card {
   background: white;
 
-  padding: 30px;
+  padding: 40px;
 
-  border-radius: 20px;
+  border-radius: 24px;
 
   box-shadow: var(--shadow);
 
-  max-width: 700px;
+  max-width: 1200px;
 
   margin: 40px auto;
 }
 
-.product {
-  border-bottom: 1px solid #ddd;
+.payment-card h1 {
+  color: var(--primary-color);
 
-  padding: 20px 0;
+  margin-bottom: 30px;
+
+  text-align: center;
 }
 
-.product:last-child {
-  border: none;
+.products-grid {
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 25px;
+
+  margin-top: 30px;
+}
+
+.product {
+  min-height: 220px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: space-between;
+
+  box-shadow: 0 15px 35px rgba(0, 51, 102, 0.15);
+}
+
+.product h3 {
+  color: var(--primary-color);
+
+  margin-bottom: 15px;
+
+  font-size: 20px;
+}
+
+.product p {
+  font-size: 24px;
+
+  font-weight: bold;
+
+  color: var(--success-color);
+
+  margin-bottom: 20px;
+
+  padding: 0 10px;
 }
 
 .product button {
-  background: var(--primary-color);
+  width: 100%;
+
+  background: linear-gradient(135deg, #003366, #0055aa);
 
   color: white;
 
   border: none;
 
-  padding: 10px 20px;
+  padding: 12px;
+
+  border-radius: 12px;
+
+  cursor: pointer;
+
+  font-weight: bold;
+
+  transition: 0.3s;
+}
+
+.product button:hover {
+  transform: translateY(-2px);
+}
+
+/* MODAL */
+
+.modal {
+  display: none;
+
+  position: fixed;
+
+  inset: 0;
+
+  background: rgba(0, 0, 0, 0.6);
+
+  justify-content: center;
+
+  align-items: center;
+
+  z-index: 999;
+}
+
+.modal-content {
+  background: white;
+
+  width: 550px;
+
+  max-width: 95%;
+
+  border-radius: 24px;
+
+  overflow: hidden;
+
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+
+  animation: modalShow 0.25s ease;
+}
+
+.modal-header {
+  background: linear-gradient(135deg, #003366, #0055aa);
+
+  color: white;
+
+  padding: 25px 30px;
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+}
+
+.modal-header h2 {
+  margin: 0;
+
+  font-size: 24px;
+}
+
+.modal-header h2 {
+  margin: 0;
+}
+
+.modal-body {
+  padding: 30px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 18px;
+}
+
+.modal-body label {
+  font-weight: 600;
+
+  color: var(--primary-color);
+
+  margin-bottom: -10px;
+}
+
+.modal-body input,
+.modal-body select {
+  width: 100%;
+
+  padding: 14px;
+
+  border: 1px solid #d1d5db;
+
+  border-radius: 12px;
+
+  font-size: 15px;
+
+  transition: 0.2s;
+}
+
+.modal-body input:focus,
+.modal-body select:focus {
+  outline: none;
+
+  border-color: #0055aa;
+
+  box-shadow: 0 0 0 4px rgba(0, 85, 170, 0.15);
+}
+
+.modal-actions {
+  display: flex;
+
+  gap: 15px;
+
+  margin-top: 15px;
+}
+
+.cancel-btn,
+.pay-btn {
+  flex: 1;
+
+  padding: 14px;
+
+  border-radius: 12px;
+
+  font-weight: 700;
+
+  font-size: 15px;
+}
+
+.cancel-btn {
+  background: #f3f4f6;
+}
+
+.pay-btn {
+  background: linear-gradient(135deg, #003366, #0055aa);
+
+  color: white;
+}
+
+.pay-btn:hover {
+  transform: translateY(-2px);
+}
+
+.cancel-btn,
+.pay-btn {
+  flex: 1;
+
+  border: none;
+
+  padding: 12px;
 
   border-radius: 10px;
 
   cursor: pointer;
+
+  font-weight: bold;
+}
+
+.cancel-btn {
+  background: #e5e7eb;
+}
+
+.pay-btn {
+  background: linear-gradient(135deg, #003366, #0055aa);
+
+  color: white;
+}
+
+.close {
+  float: right;
+
+  cursor: pointer;
+
+  font-size: 24px;
+}
+
+@keyframes modalShow {
+  from {
+    opacity: 0;
+
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+
+    transform: scale(1);
+  }
+}
+
+.payment-summary {
+  background: #f8fafc;
+
+  border: 1px solid #e5e7eb;
+
+  border-radius: 16px;
+
+  padding: 18px;
+}
+
+.payment-summary p {
+  display: flex;
+
+  justify-content: space-between;
+
+  margin: 8px 0;
+}
+
+.secure-badge {
+  background: #ecfdf5;
+
+  color: #059669;
+
+  border: 1px solid #a7f3d0;
+
+  padding: 10px 15px;
+
+  border-radius: 12px;
+
+  font-weight: 600;
+
+  text-align: center;
+
+  margin-bottom: 10px;
 }

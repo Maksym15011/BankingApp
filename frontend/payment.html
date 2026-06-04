@@ -4,15 +4,23 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Bramka Płatnicza</title>
+    <title>Usługi Płatnicze</title>
 
     <link rel="stylesheet" href="css/base.css" />
 
     <link rel="stylesheet" href="css/payment.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
   </head>
   <body>
     <header class="header">
-      <a href="dashboard.html" class="logo"> 🏦 Bank Polski Online </a>
+      <a href="dashboard.html" class="logo">
+        <i class="fa-solid fa-building-columns"></i>
+
+        <span> NOVA BANK </span>
+      </a>
 
       <nav>
         <a href="dashboard.html"> Panel </a>
@@ -21,7 +29,7 @@
 
         <a href="history.html"> Historia </a>
 
-        <a href="payment.html"> Płatności </a>
+        <a href="payment.html" class="active"> Usługi </a>
 
         <a href="#" onclick="logout()"> Wyloguj </a>
       </nav>
@@ -29,33 +37,134 @@
 
     <main class="container">
       <div class="payment-card">
-        <h1>Bramka Płatnicza</h1>
+        <h1>Usługi Płatnicze</h1>
 
-        <div class="product">
-          <h3>Netflix Premium</h3>
+        <div class="products-grid">
+          <div class="product">
+            <h3>🎬 Netflix Premium</h3>
+            <p>49 PLN</p>
+            <button onclick="openModal(49, 'Netflix Premium')">Zapłać</button>
+          </div>
 
-          <p>49 PLN</p>
+          <div class="product">
+            <h3>🎵 Spotify Premium</h3>
+            <p>25 PLN</p>
+            <button onclick="openModal(25, 'Spotify Premium')">Zapłać</button>
+          </div>
 
-          <button onclick="pay(49, 'Netflix Premium')">Zapłać</button>
-        </div>
+          <div class="product">
+            <h3>🎓 Kurs JavaScript</h3>
+            <p>100 PLN</p>
+            <button onclick="openModal(100, 'Kurs JavaScript')">Zapłać</button>
+          </div>
 
-        <div class="product">
-          <h3>Spotify Premium</h3>
+          <div class="product">
+            <h3>📱 Doładowanie telefonu</h3>
+            <p>50 PLN</p>
+            <button onclick="openModal(50, 'Doładowanie telefonu')">
+              Zapłać
+            </button>
+          </div>
 
-          <p>25 PLN</p>
+          <div class="product">
+            <h3>⚡ Rachunek za prąd</h3>
+            <p>120 PLN</p>
+            <button onclick="openModal(120, 'Rachunek za prąd')">Zapłać</button>
+          </div>
 
-          <button onclick="pay(25, 'Spotify Premium')">Zapłać</button>
-        </div>
+          <div class="product">
+            <h3>🌐 Internet domowy</h3>
+            <p>80 PLN</p>
+            <button onclick="openModal(80, 'Internet domowy')">Zapłać</button>
+          </div>
 
-        <div class="product">
-          <h3>Kurs JavaScript</h3>
+          <div class="product">
+            <h3>🚗 Ubezpieczenie OC</h3>
+            <p>250 PLN</p>
+            <button onclick="openModal(250, 'Ubezpieczenie OC')">Zapłać</button>
+          </div>
 
-          <p>100 PLN</p>
+          <div class="product">
+            <h3>🏠 Czynsz mieszkania</h3>
+            <p>1500 PLN</p>
+            <button onclick="openModal(1500, 'Czynsz mieszkania')">
+              Zapłać
+            </button>
+          </div>
 
-          <button onclick="pay(100, 'Kurs JavaScript')">Zapłać</button>
+          <div class="product">
+            <h3>🎮 PlayStation Plus</h3>
+            <p>39 PLN</p>
+            <button onclick="openModal(39, 'PlayStation Plus')">Zapłać</button>
+          </div>
         </div>
       </div>
     </main>
+
+    <div id="paymentModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Bramka Płatnicza</h2>
+
+          <span class="close" onclick="closeModal()"> &times; </span>
+        </div>
+
+        <div class="modal-body">
+          <div class="payment-summary">
+            <p>
+              <strong> Usługa </strong>
+
+              <span id="serviceName"> </span>
+            </p>
+
+            <p>
+              <strong> Kwota </strong>
+
+              <span id="serviceAmount"> </span>
+            </p>
+          </div>
+
+          <div class="secure-badge">🔒 Secure Payment</div>
+
+          <label for="bankSelect"> Bank </label>
+
+          <select id="bankSelect" onchange="changeBank()">
+            <option>NOVA BANK</option>
+
+            <option>PKO Bank Polski</option>
+
+            <option>mBank</option>
+
+            <option>Santander Bank Polska</option>
+
+            <option>ING Bank Śląski</option>
+          </select>
+
+          <label for="cardNumber"> Numer karty </label>
+
+          <input
+            type="text"
+            id="cardNumber"
+            placeholder="1234 5678 9012 3456"
+            readonly
+          />
+
+          <label for="expiryDate"> Data ważności </label>
+
+          <input type="text" id="expiryDate" placeholder="MM/YY" readonly />
+
+          <label for="cvv"> CVV </label>
+
+          <input type="password" id="cvv" maxlength="3" placeholder="***" />
+
+          <div class="modal-actions">
+            <button class="cancel-btn" onclick="closeModal()">Anuluj</button>
+
+            <button class="pay-btn" onclick="confirmPayment()">Zapłać</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <footer>
       <p>

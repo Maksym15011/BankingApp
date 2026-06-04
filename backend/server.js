@@ -1,3 +1,5 @@
+const PDFDocument = require("pdfkit");
+
 require("dotenv").config();
 
 const express = require("express");
@@ -216,9 +218,10 @@ app.post("/transfer", async (req, res) => {
     const { senderId, receiverId, amount } = req.body;
 
     const sender = await sql.query`
-      SELECT * FROM Users
-      WHERE Id = ${senderId}
-    `;
+  SELECT *
+  FROM Users
+  WHERE Id = ${senderId}
+`;
 
     const receiver = await sql.query`
       SELECT * FROM Users
@@ -256,15 +259,21 @@ app.post("/transfer", async (req, res) => {
     `;
 
     await sql.query`
-      INSERT INTO Transactions
-      (SenderId, ReceiverId, Amount)
-      VALUES
-      (
-        ${senderId},
-        ${receiverId},
-        ${amount}
-      )
-    `;
+  INSERT INTO Transactions
+  (
+    SenderId,
+    ReceiverId,
+    Amount,
+    Description
+  )
+  VALUES
+  (
+    ${senderId},
+    ${receiverId},
+    ${amount},
+    'Przelew'
+  )
+`;
 
     res.json({
       message: "Transfer successful",
@@ -283,12 +292,41 @@ app.get("/transactions/:id", async (req, res) => {
     const id = req.params.id;
 
     const result = await sql.query`
-            SELECT *
-            FROM Transactions
-            WHERE SenderId = ${id}
-               OR ReceiverId = ${id}
-            ORDER BY Id DESC
-        `;
+
+      SELECT
+
+        T.Id,
+        T.Amount,
+        T.TransactionDate,
+        T.Description,
+
+        T.SenderId,
+        T.ReceiverId,
+
+        Sender.FullName AS SenderName,
+        Receiver.FullName AS ReceiverName
+
+      FROM Transactions T
+
+      INNER JOIN Users Sender
+      ON T.SenderId = Sender.Id
+
+      INNER JOIN Users Receiver
+      ON T.ReceiverId = Receiver.Id
+
+      WHERE
+
+        T.SenderId = ${id}
+
+        OR
+
+        T.ReceiverId = ${id}
+
+      ORDER BY
+
+        T.TransactionDate DESC
+
+    `;
 
     res.json(result.recordset);
   } catch (err) {
@@ -379,11 +417,11 @@ app.post("/payment", async (req, res) => {
 
     const sender = await sql.query`
 
-        SELECT *
-        FROM Users
-        WHERE Id = ${senderId}
+  SELECT *
+  FROM Users
+  WHERE Id = ${senderId}
 
-      `;
+`;
 
     if (sender.recordset[0].Balance < amount) {
       return res.status(400).json({
@@ -403,24 +441,80 @@ app.post("/payment", async (req, res) => {
 
     await sql.query`
 
-      INSERT INTO Transactions
-      (
-        SenderId,
-        ReceiverId,
-        Amount
-      )
-      VALUES
-      (
-        ${senderId},
-        10,
-        ${amount}
-      )
+  INSERT INTO Transactions
+  (
+    SenderId,
+    ReceiverId,
+    Amount,
+    Description
+  )
+  VALUES
+  (
+    ${senderId},
+    10,
+    ${amount},
+    ${service}
+  )
 
-    `;
+`;
 
     res.json({
       message: "Payment successful",
     });
+  } catch (err) {
+    console.error(err);
+
+    res.status(500).json({
+      message: "Server error",
+    });
+  }
+});
+
+app.get("/transaction-pdf/:id", async (req, res) => {
+  try {
+    const transactionId = req.params.id;
+
+    const result = await sql.query`
+
+        SELECT *
+        FROM Transactions
+        WHERE Id =
+        ${transactionId}
+
+      `;
+
+    if (result.recordset.length === 0) {
+      return res.status(404).json({
+        message: "Transaction not found",
+      });
+    }
+
+    const transaction = result.recordset[0];
+
+    const doc = new PDFDocument();
+
+    res.setHeader("Content-Type", "application/pdf");
+
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename=transaction-${transactionId}.pdf`,
+    );
+
+    doc.pipe(res);
+
+    doc.fontSize(20).text("Potwierdzenie Transakcji");
+
+    doc.moveDown();
+
+    doc.fontSize(12).text(`ID: ${transaction.Id}`);
+
+    doc.text(`Sender: ${transaction.SenderId}`);
+
+    doc.text(`Receiver: ${transaction.ReceiverId}`);
+
+    doc.text(`Amount: ${transaction.Amount} PLN`);
+
+    doc.end();
   } catch (err) {
     console.error(err);
 

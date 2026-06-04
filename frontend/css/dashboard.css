@@ -121,44 +121,117 @@
 
 .card-preview {
   margin-top: 30px;
+  width: 100%;
 }
 
 .bank-card {
-  background: linear-gradient(135deg, #003366, #0055aa);
+  position: relative;
+
+  background: linear-gradient(135deg, #00264d, #003366, #0055aa);
 
   color: white;
 
-  padding: 30px;
+  padding: 35px;
 
-  border-radius: 20px;
+  border-radius: 24px;
 
-  box-shadow: var(--shadow);
+  max-width: 100%;
 
-  max-width: 550px;
+  overflow: hidden;
+
+  box-shadow: 0 15px 35px rgba(0, 51, 102, 0.3);
+
+  transition: 0.3s;
+}
+
+.bank-card:hover {
+  transform: translateY(-4px);
+}
+
+.bank-card::before {
+  content: "";
+
+  position: absolute;
+
+  top: -80px;
+
+  right: -80px;
+
+  width: 220px;
+
+  height: 220px;
+
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.bank-card::after {
+  content: "";
+
+  position: absolute;
+
+  top: 20px;
+
+  right: 25px;
+
+  width: 60px;
+
+  height: 45px;
+
+  border-radius: 10px;
+
+  background: rgba(255, 255, 255, 0.25);
 }
 
 .card-bank {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
   font-size: 18px;
 
-  font-weight: bold;
+  font-weight: 700;
 
-  margin-bottom: 50px;
+  margin-bottom: 70px;
+
+  letter-spacing: 1px;
 }
 
 .card-number {
-  font-size: 28px;
+  font-size: 30px;
 
-  letter-spacing: 4px;
+  font-weight: 600;
 
-  margin-bottom: 35px;
+  letter-spacing: 5px;
+
+  margin-bottom: 45px;
 }
 
 .card-bottom {
   display: flex;
 
   justify-content: space-between;
+
+  align-items: flex-end;
+}
+
+.card-bottom div {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 5px;
 }
 
 .card-bottom small {
-  opacity: 0.8;
+  opacity: 0.75;
+
+  text-transform: uppercase;
+
+  font-size: 11px;
+
+  letter-spacing: 1px;
 }

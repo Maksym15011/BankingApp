@@ -15,20 +15,20 @@
   </head>
   <body>
     <header class="header">
-      <div class="logo">
+      <a href="dashboard.html" class="logo">
         <i class="fa-solid fa-building-columns"></i>
 
-        <a href="dashboard.html"> Bank Polski Online </a>
-      </div>
+        <span> NOVA BANK </span>
+      </a>
 
       <nav>
         <a href="dashboard.html"> Panel </a>
 
         <a href="transfer.html"> Przelew </a>
 
-        <a href="history.html"> Historia </a>
+        <a href="history.html" class="active"> Historia </a>
 
-        <a href="payment.html"> Płatności </a>
+        <a href="payment.html"> Usługi </a>
 
         <a href="#" onclick="logout()"> Wyloguj </a>
       </nav>
@@ -47,6 +47,8 @@
               <th>Nadawca</th>
               <th>Odbiorca</th>
               <th>Kwota</th>
+              <th>Data</th>
+              <th>PDF</th>
             </tr>
           </thead>
 
@@ -60,7 +62,7 @@
 
     <footer class="footer">
       <div class="footer-content">
-        <h3>Bank Polski Online</h3>
+        <h3>NOVA BANK</h3>
 
         <p>
           Projekt edukacyjny stworzony w ramach przedmiotów Banking oraz Web

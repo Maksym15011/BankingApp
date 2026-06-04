@@ -12,30 +12,61 @@ async function loadHistory() {
   transactions.forEach((t) => {
     const isOutgoing = t.SenderId == userId;
 
+    const date = new Date(t.TransactionDate).toLocaleDateString("pl-PL");
+
     tbody.innerHTML += `
 
-            <tr>
+<tr>
 
-                <td>${t.Id}</td>
+  <td>${t.Id}</td>
 
-                <td>${t.SenderId}</td>
+  <td>
+    ${t.SenderId == userId ? "Ty" : t.SenderName}
+  </td>
 
-                <td>${t.ReceiverId}</td>
+  <td>
+    ${
+      t.Description && t.Description !== "Przelew"
+        ? t.Description
+        : t.ReceiverId == userId
+          ? "Ty"
+          : t.ReceiverName
+    }
+  </td>
 
-                <td class="${
-                  isOutgoing ? "amount-negative" : "amount-positive"
-                }">
+  <td class="${isOutgoing ? "amount-negative" : "amount-positive"}">
 
-                    ${isOutgoing ? "-" : "+"}
+    ${isOutgoing ? "-" : "+"}
 
-                    ${t.Amount} PLN
+    ${t.Amount} PLN
 
-                </td>
+  </td>
 
-            </tr>
+  <td>${date}</td>
 
-        `;
+  <td>
+
+    <button
+      class="pdf-btn"
+      onclick="downloadPdf(${t.Id})">
+
+      📄 PDF
+
+    </button>
+
+  </td>
+
+</tr>
+
+`;
   });
 }
 
 loadHistory();
+
+function downloadPdf(transactionId) {
+  window.open(
+    `http://localhost:5000/transaction-pdf/${transactionId}`,
+    "_blank",
+  );
+}
