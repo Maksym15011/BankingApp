@@ -10,29 +10,33 @@
     <link rel="stylesheet" href="css/register.css" />
   </head>
   <body>
-    <main class="register-container">
-      <div class="register-card">
-        <h1>Rejestracja</h1>
+    <div class="auth-container">
+      <div class="auth-card">
+        <div class="auth-logo">
+          <i class="fa-solid fa-building-columns"></i>
+        </div>
 
-        <p>Utwórz nowe konto bankowe</p>
+        <h1 class="auth-title">NOVA BANK</h1>
 
-        <input type="text" id="fullName" placeholder="Imię i nazwisko" />
+        <p class="auth-subtitle">Utwórz nowe konto</p>
 
-        <input type="email" id="email" placeholder="Email" />
+        <div class="auth-form">
+          <input type="text" id="fullName" placeholder="Imię i nazwisko" />
 
-        <input type="password" id="password" placeholder="Hasło" />
+          <input type="email" id="email" placeholder="Email" />
 
-        <button onclick="register()">Zarejestruj</button>
+          <input type="password" id="password" placeholder="Hasło" />
 
-        <a href="login.html"> Masz już konto? </a>
+          <button class="auth-btn" onclick="register()">Załóż konto</button>
+        </div>
+
+        <div class="auth-link">
+          Masz już konto?
+
+          <a href="login.html"> Zaloguj się </a>
+        </div>
       </div>
-    </main>
-
-    <footer class="footer">
-      <div class="footer-content">
-        <p>Projekt edukacyjny. Nie jest prawdziwym bankiem.</p>
-      </div>
-    </footer>
+    </div>
 
     <script src="js/auth.js"></script>
   </body>

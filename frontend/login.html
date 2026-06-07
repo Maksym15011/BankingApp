@@ -13,38 +13,32 @@
     />
   </head>
   <body>
-    <div class="login-container">
-      <div class="login-card">
-        <h1>NOVA BANK</h1>
+    <div class="auth-container">
+      <div class="auth-card">
+        <div class="auth-logo">
+          <i class="fa-solid fa-building-columns"></i>
+        </div>
 
-        <p>Zaloguj się do swojego konta</p>
+        <h1 class="auth-title">NOVA BANK</h1>
 
-        <input type="email" id="email" placeholder="Email" />
+        <p class="auth-subtitle">Nowoczesna bankowość online</p>
 
-        <input type="password" id="password" placeholder="Hasło" />
+        <div class="auth-form">
+          <input type="email" id="email" placeholder="Email" />
 
-        <button onclick="login()">Zaloguj</button>
+          <input type="password" id="password" placeholder="Hasło" />
 
-        <a href="register.html"> Nie masz konta? Zarejestruj się </a>
+          <button class="auth-btn" onclick="login()">Zaloguj się</button>
+        </div>
+
+        <div class="auth-link">
+          Nie masz konta?
+
+          <a href="register.html"> Zarejestruj się </a>
+        </div>
       </div>
     </div>
 
     <script src="js/auth.js"></script>
-
-    <footer class="footer">
-      <div class="footer-content">
-        <h3>Bank Polski Online</h3>
-
-        <p>
-          Projekt edukacyjny stworzony w ramach przedmiotów Banking oraz Web
-          Development.
-        </p>
-
-        <p>
-          System przeznaczony wyłącznie do celów demonstracyjnych. Nie jest
-          prawdziwym bankiem.
-        </p>
-      </div>
-    </footer>
   </body>
 </html>

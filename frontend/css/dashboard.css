@@ -235,3 +235,37 @@
 
   letter-spacing: 1px;
 }
+
+.card-cvv {
+  margin-top: 20px;
+}
+
+.cvv-row {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  margin-top: 5px;
+}
+
+.cvv-btn {
+  background: rgba(255, 255, 255, 0.15);
+
+  color: white;
+
+  border: none;
+
+  width: 32px;
+
+  height: 32px;
+
+  border-radius: 50%;
+
+  cursor: pointer;
+}
+
+.cvv-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+}

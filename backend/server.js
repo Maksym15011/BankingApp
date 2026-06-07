@@ -215,18 +215,29 @@ app.get("/user/:id", async (req, res) => {
 
 app.post("/transfer", async (req, res) => {
   try {
-    const { senderId, receiverId, amount } = req.body;
+    const { senderId, cardNumber, amount, note } = req.body;
+
+    const cleanCardNumber = cardNumber.trim();
+
+    if (!cleanCardNumber) {
+      return res.status(400).json({
+        message: "Podaj numer karty odbiorcy",
+      });
+    }
+
+    if (amount <= 0) {
+      return res.status(400).json({
+        message: "Kwota musi być większa od 0",
+      });
+    }
 
     const sender = await sql.query`
-  SELECT *
-  FROM Users
-  WHERE Id = ${senderId}
-`;
 
-    const receiver = await sql.query`
-      SELECT * FROM Users
-      WHERE Id = ${receiverId}
-    `;
+        SELECT *
+        FROM Users
+        WHERE Id = ${senderId}
+
+      `;
 
     if (sender.recordset.length === 0) {
       return res.status(404).json({
@@ -234,46 +245,88 @@ app.post("/transfer", async (req, res) => {
       });
     }
 
-    if (receiver.recordset.length === 0) {
+    const receiverCard = await sql.query`
+
+        SELECT *
+        FROM Cards
+        WHERE CardNumber =
+        ${cleanCardNumber}
+
+      `;
+
+    if (receiverCard.recordset.length === 0) {
       return res.status(404).json({
-        message: "Receiver not found",
+        message: "Karta odbiorcy nie istnieje",
       });
     }
+
+    const receiverId = receiverCard.recordset[0].UserId;
+
+    if (Number(receiverId) === Number(senderId)) {
+      return res.status(400).json({
+        message: "Nie możesz wykonać przelewu na własną kartę",
+      });
+    }
+
+    const receiver = await sql.query`
+
+        SELECT *
+        FROM Users
+        WHERE Id =
+        ${receiverId}
+
+      `;
 
     if (sender.recordset[0].Balance < amount) {
       return res.status(400).json({
-        message: "Insufficient funds",
+        message: "Nie masz wystarczających środków do wykonania tej operacji",
       });
     }
 
     await sql.query`
+
       UPDATE Users
-      SET Balance = Balance - ${amount}
-      WHERE Id = ${senderId}
+
+      SET Balance =
+      Balance - ${amount}
+
+      WHERE Id =
+      ${senderId}
+
     `;
 
     await sql.query`
+
       UPDATE Users
-      SET Balance = Balance + ${amount}
-      WHERE Id = ${receiverId}
+
+      SET Balance =
+      Balance + ${amount}
+
+      WHERE Id =
+      ${receiverId}
+
     `;
 
     await sql.query`
-  INSERT INTO Transactions
-  (
-    SenderId,
-    ReceiverId,
-    Amount,
-    Description
-  )
-  VALUES
-  (
-    ${senderId},
-    ${receiverId},
-    ${amount},
-    'Przelew'
-  )
-`;
+
+      INSERT INTO Transactions
+      (
+        SenderId,
+        ReceiverId,
+        Amount,
+        Description,
+        Note
+      )
+      VALUES
+      (
+        ${senderId},
+        ${receiverId},
+        ${amount},
+        'Przelew',
+        ${note || ""}
+      )
+
+    `;
 
     res.json({
       message: "Transfer successful",
@@ -299,6 +352,7 @@ app.get("/transactions/:id", async (req, res) => {
         T.Amount,
         T.TransactionDate,
         T.Description,
+        T.Note,
 
         T.SenderId,
         T.ReceiverId,
@@ -413,7 +467,7 @@ app.get("/card/:id", async (req, res) => {
 
 app.post("/payment", async (req, res) => {
   try {
-    const { senderId, amount, service } = req.body;
+    const { senderId, amount, service, cvv } = req.body;
 
     const sender = await sql.query`
 
@@ -422,10 +476,29 @@ app.post("/payment", async (req, res) => {
   WHERE Id = ${senderId}
 
 `;
+    const card = await sql.query`
+
+  SELECT *
+  FROM Cards
+  WHERE UserId = ${senderId}
+
+`;
+
+    if (card.recordset.length === 0) {
+      return res.status(404).json({
+        message: "Card not found",
+      });
+    }
+
+    if (card.recordset[0].CVV !== cvv) {
+      return res.status(400).json({
+        message: "Nieprawidłowy CVV",
+      });
+    }
 
     if (sender.recordset[0].Balance < amount) {
       return res.status(400).json({
-        message: "Insufficient funds",
+        message: "Nie masz wystarczających środków do wykonania tej operacji",
       });
     }
 
@@ -476,12 +549,28 @@ app.get("/transaction-pdf/:id", async (req, res) => {
 
     const result = await sql.query`
 
-        SELECT *
-        FROM Transactions
-        WHERE Id =
-        ${transactionId}
+SELECT
 
-      `;
+  T.Id,
+  T.Amount,
+  T.TransactionDate,
+  T.Description,
+  T.Note,
+
+  Sender.FullName AS SenderName,
+  Receiver.FullName AS ReceiverName
+
+FROM Transactions T
+
+INNER JOIN Users Sender
+ON T.SenderId = Sender.Id
+
+INNER JOIN Users Receiver
+ON T.ReceiverId = Receiver.Id
+
+WHERE T.Id = ${transactionId}
+
+`;
 
     if (result.recordset.length === 0) {
       return res.status(404).json({
@@ -491,7 +580,9 @@ app.get("/transaction-pdf/:id", async (req, res) => {
 
     const transaction = result.recordset[0];
 
-    const doc = new PDFDocument();
+    const doc = new PDFDocument({
+      margin: 50,
+    });
 
     res.setHeader("Content-Type", "application/pdf");
 
@@ -502,17 +593,62 @@ app.get("/transaction-pdf/:id", async (req, res) => {
 
     doc.pipe(res);
 
-    doc.fontSize(20).text("Potwierdzenie Transakcji");
+    doc.fontSize(26).fillColor("#003366").text("NOVA BANK", {
+      align: "center",
+    });
+
+    doc.moveDown(0.5);
+
+    doc.fontSize(18).fillColor("black").text("Potwierdzenie Transakcji", {
+      align: "center",
+    });
+
+    doc.moveDown(2);
+
+    doc.rect(50, 150, 500, 250).stroke();
+
+    const date = new Date(transaction.TransactionDate).toLocaleDateString(
+      "pl-PL",
+    );
+
+    doc.fontSize(12).text(`Numer transakcji: ${transaction.Id}`, 70, 180);
+
+    doc.text(`Data: ${date}`);
 
     doc.moveDown();
 
-    doc.fontSize(12).text(`ID: ${transaction.Id}`);
+    doc.text(`Nadawca: ${transaction.SenderName}`);
 
-    doc.text(`Sender: ${transaction.SenderId}`);
+    doc.moveDown();
 
-    doc.text(`Receiver: ${transaction.ReceiverId}`);
+    if (transaction.Description && transaction.Description !== "Przelew") {
+      doc.text(`Usługa: ${transaction.Description}`);
+    } else {
+      doc.text(`Odbiorca: ${transaction.ReceiverName}`);
+    }
 
-    doc.text(`Amount: ${transaction.Amount} PLN`);
+    doc.moveDown();
+
+    doc.text(`Kwota: ${transaction.Amount} PLN`);
+
+    if (transaction.Note) {
+      doc.moveDown();
+
+      doc.text(`Tytuł: ${transaction.Note}`);
+    }
+
+    doc.moveDown(2);
+
+    doc.fillColor("green").fontSize(14).text("Status: Zrealizowano");
+
+    doc.moveDown(3);
+
+    doc
+      .fillColor("gray")
+      .fontSize(10)
+      .text("Dokument wygenerowany automatycznie przez NOVA BANK.", {
+        align: "center",
+      });
 
     doc.end();
   } catch (err) {

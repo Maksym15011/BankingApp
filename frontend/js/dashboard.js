@@ -1,3 +1,6 @@
+let realCVV = "";
+let cvvVisible = false;
+
 async function loadUser() {
   const userId = localStorage.getItem("userId");
 
@@ -74,9 +77,16 @@ async function loadCard() {
       localStorage.getItem("fullName");
 
     document.getElementById("cardExpiry").textContent = card.ExpiryDate;
+    realCVV = card.CVV;
   } catch (error) {
     console.error(error);
   }
+}
+
+function toggleCVV() {
+  cvvVisible = !cvvVisible;
+
+  document.getElementById("cardCVV").textContent = cvvVisible ? realCVV : "***";
 }
 
 loadUser();

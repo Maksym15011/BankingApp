@@ -44,7 +44,9 @@
           Upewnij się, że numer odbiorcy jest poprawny.
         </div>
 
-        <div class="form-group">
+        <!-- ID odbiorcy -->
+
+        <!-- <div class="form-group">
           <label for="receiverId"> ID odbiorcy </label>
 
           <input
@@ -54,18 +56,36 @@
             title="ID odbiorcy"
             placeholder="Wpisz ID odbiorcy"
           />
-        </div>
+        </div> -->
 
         <div class="form-group">
-          <label for="amount"> Kwota (PLN) </label>
+          <div class="form-group">
+            <label for="cardNumber"> Numer karty odbiorcy </label>
 
-          <input
-            type="number"
-            id="amount"
-            name="amount"
-            title="Kwota (PLN)"
-            placeholder="Wpisz kwotę"
-          />
+            <input
+              type="text"
+              id="cardNumber"
+              maxlength="19"
+              placeholder="5274 1234 5678 9876"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="amount"> Kwota (PLN) </label>
+
+            <input type="number" id="amount" placeholder="100" />
+          </div>
+
+          <div class="form-group">
+            <label for="note"> Tytuł przelewu </label>
+
+            <input
+              type="text"
+              id="note"
+              maxlength="100"
+              placeholder="Zwrot za obiad"
+            />
+          </div>
         </div>
 
         <button class="transfer-btn" onclick="makeTransfer()">
@@ -79,11 +99,11 @@
 
     <footer class="footer">
       <div class="footer-content">
-        <h3>Bank Polski Online</h3>
+        <h3>NOVA BANK</h3>
 
         <p>
-          Projekt edukacyjny stworzony w ramach przedmiotów Banking oraz Web
-          Development.
+          Projekt edukacyjny stworzony w ramach przedmiotów Systemy
+          informatyczne w bankowości oraz Aplikacje webowe.
         </p>
 
         <p>

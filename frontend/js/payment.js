@@ -16,6 +16,7 @@ function openModal(amount, service) {
 
 function closeModal() {
   document.getElementById("paymentModal").style.display = "none";
+  document.getElementById("cvv").value = "";
 }
 
 async function loadCard() {
@@ -39,10 +40,10 @@ async function confirmPayment() {
     return;
   }
 
-  await pay(selectedAmount, selectedService);
+  await pay(selectedAmount, selectedService, cvv);
 }
 
-async function pay(amount, service) {
+async function pay(amount, service, cvv) {
   const senderId = localStorage.getItem("userId");
 
   const response = await fetch("http://localhost:5000/payment", {
@@ -56,6 +57,7 @@ async function pay(amount, service) {
       senderId,
       amount,
       service,
+      cvv,
     }),
   });
 
